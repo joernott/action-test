@@ -7,7 +7,7 @@ on:
           type: string
           description: 'Runner for this workflow'
           required: false
-          default: '["self-hosted", "x64"]'
+          default: '["gha-runner-scale-set", "x64"]'
 #     secrets:
 #       DOCKER_HUB_USER:
 #         description: 'user for the docker login'
