@@ -111,4 +111,5 @@ jobs:
             test_wahr: $test_wahr
             test_falsch: $test_falsch
             test_number: $test_number
+            reference_to_github: $test_reference_to_github
           EOF
