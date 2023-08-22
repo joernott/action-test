@@ -48,8 +48,7 @@ jobs:
     steps:
       - name: "Download testplan"
         run: |
-          curl -sSjkLo .testplan.yml "${{ inputs.yaml }}"
-          cat >>.testplan.yml <<EOF
+          cat >.testplan.yml <<EOF
           github:
             action: &github_action ${{ github.action }}
             action_path: &github_action_path ${{ github.action_path }}
@@ -92,6 +91,8 @@ jobs:
             workflow_sha: &github_workflow_sha ${{ github.workflow_sha }}
             workspace: &github_workspace ${{ github.workspace }}
           EOF
+          curl -sSjkL "${{ inputs.yaml }}" >>.testplan.yml
+          cat .testplan.yml
 
       - name: 'Load variables'
         uses: actions-tools/yaml-outputs@v2
