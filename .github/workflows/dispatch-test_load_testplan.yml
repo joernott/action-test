@@ -95,7 +95,7 @@ jobs:
         uses: actions-tools/yaml-outputs@v2
         id: yaml
         with:
-          file-path: .testplan.json
+          file-path: .testplan.yml
       - name: 'Dump variables'
         run: |
           cat <<EOF
