@@ -19,7 +19,7 @@ jobs:
       - name: 'Load variables'
         uses: zlatko-ms/varfiletoenv@v3
         with:
-          paths: ./path/to/my/file.properties
+          paths: ${{ inputs.testplan }}
       - name: 'Dump variables'
         run: |
           cat <<EOF
