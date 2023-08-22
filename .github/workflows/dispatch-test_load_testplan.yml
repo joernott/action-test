@@ -16,10 +16,13 @@ jobs:
   test:
     runs-on: ${{ fromJSON(inputs.runs_on) }}
     steps:
+      - name: "Download testplan"
+        run: |
+          curl -sSjkLo .testplan.yml "${{ inputs.testplan }}"
       - name: 'Load variables'
         uses: zlatko-ms/varfiletoenv@v3
         with:
-          paths: ${{ inputs.testplan }}
+          paths: .testplan.yml
       - name: 'Dump variables'
         run: |
           cat <<EOF
