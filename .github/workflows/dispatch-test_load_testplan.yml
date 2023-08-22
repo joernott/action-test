@@ -13,7 +13,7 @@ on:
         default: '"ubuntu-latest"'
 
 jobs:
-  test:
+  test_varfilestoenv:
     runs-on: ${{ fromJSON(inputs.runs_on) }}
     steps:
       - name: "Download testplan"
@@ -34,4 +34,28 @@ jobs:
             test_wahr: $test_wahr
             test_falsch: $test_falsch
             test_number: $test_number
+          EOF
+
+  test_jsontovariables:
+    runs-on: ${{ fromJSON(inputs.runs_on) }}
+    steps:
+      - name: "Download testplan"
+        run: |
+          curl -sSjkLo .testplan.yml "${{ inputs.testplan }}"
+      - name: 'Load variables'
+        uses: laingcc/json-to-variables@v1.0.0
+        with:
+          filename: .testplan.yml
+          prefix: 'x'
+      - name: 'Dump variables'
+        run: |
+          cat <<EOF
+            x_workflow_matrix_php: $workflow_matrix_php
+            x_workflow_matrix_mysql: $workflow_matrix_mysql
+            x_workflow_runs_on: $workflow_runs_on
+
+            x_test_string: $test_string
+            x_test_wahr: $test_wahr
+            x_test_falsch: $test_falsch
+            x_test_number: $test_number
           EOF
