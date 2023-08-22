@@ -50,12 +50,12 @@ jobs:
       - name: 'Dump variables'
         run: |
           cat <<EOF
-            x_workflow_matrix_php: $workflow_matrix_php
-            x_workflow_matrix_mysql: $workflow_matrix_mysql
-            x_workflow_runs_on: $workflow_runs_on
+            x_workflow_matrix_php: $x_workflow_matrix_php
+            x_workflow_matrix_mysql: $x_workflow_matrix_mysql
+            x_workflow_runs_on: $x_workflow_runs_on
 
-            x_test_string: $test_string
-            x_test_wahr: $test_wahr
-            x_test_falsch: $test_falsch
-            x_test_number: $test_number
+            x_test_string: $x_test_string
+            x_test_wahr: $x_test_wahr
+            x_test_falsch: $x_test_falsch
+            x_test_number: $x_test_number
           EOF
