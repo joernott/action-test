@@ -2,10 +2,16 @@ name: dispatch-test_json
 on:
   workflow_dispatch:
     inputs:
-      testplan:
+      json:
         type: string
         description: 'Location of the testplan'
-        required: true
+        required: false
+        default: https://raw.githubusercontent.com/joernott/action-test/main/.testplans/basic.json
+      yaml:
+        type: string
+        description: 'Location of the testplan'
+        required: false
+        default: https://raw.githubusercontent.com/joernott/action-test/main/.testplans/basic.yml
       runs_on:
         type: string
         description: 'Runner for this workflow'
@@ -18,8 +24,26 @@ jobs:
     steps:
       - name: "Download testplan"
         run: |
-          curl -sSjkLo .testplan.yml "${{ inputs.testplan }}"
-      - name: 'Load variables'
+          curl -sSjkLo .testplan.yml "${{ inputs.yaml }}"
+          curl -sSjkLo .testplan.json "${{ inputs.json }}"
+
+      - name: 'Load yaml variables'
+        uses: zlatko-ms/varfiletoenv@v3
+        with:
+          paths: .testplan.yml
+      - name: 'Dump variables'
+        run: |
+          cat <<EOF
+            workflow_matrix_php: $workflow_matrix_php
+            workflow_matrix_mysql: $workflow_matrix_mysql
+            workflow_runs_on: $workflow_runs_on
+
+            test_string: $test_string
+            test_wahr: $test_wahr
+            test_falsch: $test_falsch
+            test_number: $test_number
+          EOF
+      - name: 'Load json variables'
         uses: zlatko-ms/varfiletoenv@v3
         with:
           paths: .testplan.yml
@@ -41,11 +65,12 @@ jobs:
     steps:
       - name: "Download testplan"
         run: |
-          curl -sSjkLo .testplan.yml "${{ inputs.testplan }}"
+          #curl -sSjkLo .testplan.yml "${{ inputs.yaml }}"
+          curl -sSjkLo .testplan.json "${{ inputs.json }}"
       - name: 'Load variables'
         uses: laingcc/json-to-variables@release
         with:
-          filename: .testplan.yml
+          filename: .testplan.json
           prefix: 'x'
       - name: 'Dump variables'
         run: |
@@ -58,4 +83,28 @@ jobs:
             x_test_wahr: $x_test_wahr
             x_test_falsch: $x_test_falsch
             x_test_number: $x_test_number
+          EOF
+  test_yamloutputs:
+    runs-on: ${{ fromJSON(inputs.runs_on) }}
+    steps:
+      - name: "Download testplan"
+        run: |
+          curl -sSjkLo .testplan.yml "${{ inputs.yaml }}"
+          #curl -sSjkLo .testplan.json "${{ inputs.json }}"
+      - name: 'Load variables'
+        uses: actions-tools/yaml-outputs@v2
+        id: yaml
+        with:
+          file-path: .testplan.json
+      - name: 'Dump variables'
+        run: |
+          cat <<EOF
+            workflow_matrix_php: $workflow_matrix_php
+            workflow_matrix_mysql: $workflow_matrix_mysql
+            workflow_runs_on: $workflow_runs_on
+
+            test_string: $test_string
+            test_wahr: $test_wahr
+            test_falsch: $test_falsch
+            test_number: $test_number
           EOF
