@@ -96,6 +96,7 @@ jobs:
         id: yaml
         with:
           file-path: .testplan.yml
+          separator: '_'
       - name: 'Dump variables'
         run: |
           cat <<EOF
