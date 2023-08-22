@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: 'Initialize'
         run: |
-          echo "\033[0;35mDisable docker login ${THEME}\033[0m"
+          echo -e "\033[0;35mDisable docker login ${THEME}\033[0m"
           DOCKER_LOGIN="false"
           [ -n "${{ secrets.DOCKER_HUB_TOKEN }}" ] && DOCKER_LOGIN="true"
           echo "DOCKER_LOGIN=$DOCKER_LOGIN" | tee $GITHUB_ENV
