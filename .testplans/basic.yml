@@ -8,3 +8,4 @@ test:
   wahr: true
   falsch: false
   number: 42
+  reference_to_github: *github_sha
