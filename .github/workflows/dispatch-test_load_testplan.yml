@@ -43,7 +43,7 @@ jobs:
         run: |
           curl -sSjkLo .testplan.yml "${{ inputs.testplan }}"
       - name: 'Load variables'
-        uses: laingcc/json-to-variables@v1.0.0
+        uses: laingcc/json-to-variables@release
         with:
           filename: .testplan.yml
           prefix: 'x'
