@@ -1,0 +1,34 @@
+name: dispatch-debug_load
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Create yaml'
+        run: |
+          cat >test.yaml <<EOF
+          test:
+            # Normal variable
+            foo: 'bar'
+            # Variable containing a string which also is a secret
+            foobar: 'foobar'
+          EOF
+
+      - name: 'Load variables'
+        uses: actions-tools/yaml-outputs@v2
+        id: yaml
+        with:
+          file-path: test.yaml
+          separator: '_'
+      - name: 'Dump variables'
+        run: |
+          cat <<EOF
+            ### Environment variables
+            test_foo: ${test_foo}
+            test_foobar: ${test_foobar}
+            # Outputs
+            test_foo: ${{ steps.yaml.outputs.test_foo }}
+            test_foobar: ${{ steps.yaml.outputs.test_foobar }}
+          EOF
